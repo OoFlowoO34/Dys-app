@@ -10,7 +10,7 @@ import Doctor from './pages/doctor';
 import Professor from './pages/professor';
 import Graph from './pages/graph';
 import Home from './pages/home';
-import { Game } from './types/game';  // Importez l'interface Game depuis le fichier de types
+import { Game } from './types/game';
 
 function App() {
   const [games, setGames] = useState<Game[]>([]);
