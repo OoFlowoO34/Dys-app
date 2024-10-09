@@ -2,7 +2,7 @@
 // import VideoInfos from '../interfaces/VideoInfos';
 
 class GamesService {
-    private static API_URL = 'http://ec2-13-50-5-24.eu-north-1.compute.amazonaws.com:8055/items/games';
+    private static API_URL = '/items/games';
   
     // Méthode pour récupérer les jeux
     static async fetchGames(): Promise<any[]> {
