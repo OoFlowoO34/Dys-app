@@ -1,13 +1,21 @@
 import { Game } from '../types/game';
 
 class GamesService {
-  private static API_URL = '/items/games';
 
-  static async fetchGames(): Promise<Game[]> {
-    try {
-      const response = await fetch(GamesService.API_URL);
-      if (!response.ok) {
-        throw new Error('Erreur lors de la récupération des jeux');
+    private static API_URL = 'http://ec2-13-50-5-24.eu-north-1.compute.amazonaws.com:8055/items/games';
+  
+    // Méthode pour récupérer les jeux
+    static async fetchGames(): Promise<any[]> {
+      try {
+        const response = await fetch(GamesService.API_URL);
+        if (!response.ok) {
+          throw new Error('Erreur lors de la récupération des jeux');
+        }
+        const data = await response.json();
+        return data.data; // Retourne la partie 'data' qui contient les jeux
+      } catch (error) {
+        console.error('Erreur lors de la récupération des jeux:', error);
+        throw error;
       }
       const data = await response.json();
       
