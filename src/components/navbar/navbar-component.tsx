@@ -1,24 +1,21 @@
 import React from 'react';
-import { Container, Navbar } from 'react-bootstrap';
-// import logo from '../../assets/images/Logo_EoleEdit_Blanc.png'; // Chemin relatif depuis le fichier composant
+import { Link } from 'react-router-dom';
+import { Navbar, Nav } from 'react-bootstrap';
 
 const NavbarComponent: React.FC = () => {
-
   return (
-    <Navbar bg="dark" data-bs-theme="dark" className="mb-4">
-        <Container>
-          <Navbar.Brand href="#home">
-            {/* <img
-              src={logo}
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-              alt="React Bootstrap logo"
-            />{' '} */}
-            Dysapp
-          </Navbar.Brand>
-        </Container>
+    <Navbar bg="dark" variant="dark" expand="lg">
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
+        <Nav className="mr-auto">
+          <Nav.Link as={Link} to="/enfant">Enfant</Nav.Link>
+          <Nav.Link as={Link} to="/parent/accueil">Parent</Nav.Link>
+          <Nav.Link as={Link} to="/professeur/accueil">Professeur</Nav.Link>
+          <Nav.Link as={Link} to="/docteur/accueil">Doctor</Nav.Link>
+        </Nav>
+      </Navbar.Collapse>
     </Navbar>
   );
 };
+
 export default NavbarComponent;

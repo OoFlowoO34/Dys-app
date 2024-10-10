@@ -1,53 +1,58 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
-
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import NavbarComponent from './components/navbar/navbar-component';
-import GameCard from './components/gamecard/game-card-component';
 import FooterComponent from './components/footer/footer-component';
 import GamesService from './services/gameService';
-import { Container } from 'react-bootstrap';
-
-
-interface Game {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-  color: string;
-}
+import Child from './pages/child';
+import Parent from './pages/parent';
+import Doctor from './pages/doctor';
+import Professor from './pages/professor';
+import Graph from './pages/graph';
+import Home from './pages/home';
+import { Game } from './types/game';
 
 function App() {
-    // Créer un état pour stocker les jeux
-    const [games, setGames] = useState<Game[]>([]);
-    const [error, setError] = useState<string | null>(null);
-  
-    // Utiliser useEffect pour charger les jeux lors du montage du composant
-    useEffect(() => {
-      const loadGames = async () => {
-        try {
-          const gamesData = await GamesService.fetchGames();
-          setGames(gamesData); // Stocker les jeux dans l'état
-        } catch (err) {
-          setError('Erreur lors du chargement des jeux.');
-        }
-      };
-  
-      loadGames();
-    }, []);
+  const [games, setGames] = useState<Game[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadGames = async () => {
+      try {
+        const gamesData = await GamesService.fetchGames();
+        setGames(gamesData);
+      } catch (err) {
+        setError('Erreur lors du chargement des jeux.');
+      }
+    };
+
+    loadGames();
+  }, []);
+
   return (
-    <div className="App d-flex flex-column bg-dark" style={{ minHeight: '100vh' }}>
-      <header>
-        <NavbarComponent />
-      </header>
-      <main className="flex-grow-1 p-3">
-        <GameCard games={games} />
-      </main>
-      <footer className="bg-dark mt-4">
-        <Container>
-          <FooterComponent />
-        </Container>
-      </footer>
-    </div>
+    <Router>
+      <div className="App d-flex flex-column bg-dark" style={{ minHeight: '100vh' }}>
+        <header>
+          <NavbarComponent />
+        </header>
+        <main className="flex-grow-1 p-3">
+          <Routes>
+            <Route path="/enfant" element={<Child games={games}/>} />
+            <Route path="/parent" element={<Parent games={games}/>} />
+            <Route path="/parent/accueil" element={<Home userType="parent" />} />
+            <Route path="/parent/graphe" element={<Graph userType="parent" />} />
+            <Route path="/docteur" element={<Doctor games={games}/>} />
+            <Route path="/docteur/accueil" element={<Home userType="docteur" />} />
+            <Route path="/docteur/graphe" element={<Graph userType="docteur" />} />
+            <Route path="/professeur" element={<Professor games={games} />} />
+            <Route path="/professeur/accueil" element={<Home userType="professeur" />} />
+            <Route path="/professeur/graphe" element={<Graph userType="professeur" />} />
+            <Route path="*" element={<Navigate to="/enfant" replace />} />
+          </Routes>
+        </main>
+        <FooterComponent />
+      </div>
+    </Router>
   );
 }
 
